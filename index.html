@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Recipe Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.1.3/24/outline/heroicons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: '#FDF8F2',
+              terracotta: {
+                '500': '#E57373',
+                '600': '#D9534F',
+              },
+              primary: { // Re-using indigo name for simplicity
+                '500': '#D9534F',
+                '600': '#C8433F',
+              },
+              gray: {
+                50: '#F9FAFB',
+                100: '#F3F4F6',
+                200: '#E5E7EB',
+                300: '#D1D5DB',
+                400: '#9CA3AF',
+                500: '#6B7280',
+                600: '#4B5563',
+                700: '#374151',
+                800: '#1F2937',
+                900: '#111827',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05" fill="%23111827"><circle cx="400" cy="400" r="600"/><circle cx="400" cy="400" r="500"/><circle cx="400" cy="400" r="400"/><circle cx="400" cy="400" r="300"/><circle cx="400" cy="400" r="200"/><circle cx="400" cy="400" r="100"/></g></svg>');
+        opacity: 0.1;
+        z-index: -1;
+      }
+      .dark body::before {
+        opacity: 0.05;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+    "jspdf": "https://aistudiocdn.com/jspdf@^2.5.1",
+    "html2canvas": "https://aistudiocdn.com/html2canvas@^1.4.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-cream dark:bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
