@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 
 import type { Language, Recipe } from './types';
 import { getUiText } from './constants';
-import { generateRecipe } from './services/geminiService';
+import { generateRecipeText, generateRecipeImage } from './services/geminiService';
 
 import Header from './components/Header';
 import IngredientInput from './components/IngredientInput';
@@ -35,12 +35,25 @@ function App() {
     setRecipe(null);
 
     try {
-      const newRecipe = await generateRecipe(ingredients, time, language);
-      setRecipe(newRecipe);
+      // Step 1: Generate and display text content
+      const recipeTextData = await generateRecipeText(ingredients, time, language);
+      setRecipe(recipeTextData);
+      setIsLoading(false); // Stop the main loading animation so the text is visible
+
+      // Step 2: Generate image in the background and update the recipe
+      const imageUrl = await generateRecipeImage(recipeTextData.title);
+      if (imageUrl) {
+        setRecipe(currentRecipe => {
+          // Ensure we're updating the correct recipe in case the user started a new request
+          if (currentRecipe && currentRecipe.title === recipeTextData.title) {
+            return { ...currentRecipe, imageUrl };
+          }
+          return currentRecipe;
+        });
+      }
     } catch (err) {
       setError(uiText.errorGenerating);
       console.error(err);
-    } finally {
       setIsLoading(false);
     }
   };

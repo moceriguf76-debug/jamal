@@ -40,7 +40,7 @@ const getLanguageName = (langCode: Language) => {
     return langCode === 'ru' ? 'Russian' : 'English';
 }
 
-export const generateRecipe = async (ingredients: string[], timeConstraint: string, language: Language): Promise<Recipe> => {
+export const generateRecipeText = async (ingredients: string[], timeConstraint: string, language: Language): Promise<Recipe> => {
     const languageName = getLanguageName(language);
     
     let prompt = `Generate a recipe in ${languageName} using the following ingredients: ${ingredients.join(', ')}.`;
@@ -63,10 +63,17 @@ export const generateRecipe = async (ingredients: string[], timeConstraint: stri
 
         // Gemini API Guidelines: Use response.text to get the generated text content.
         const recipeJsonString = response.text;
-        const recipeData: Omit<Recipe, 'imageUrl'> = JSON.parse(recipeJsonString);
+        return JSON.parse(recipeJsonString);
 
-        // Now, generate an image for the recipe
-        const imagePrompt = `A delicious, high-quality photograph of ${recipeData.title}, ready to be served.`;
+    } catch (error) {
+        console.error("Error generating recipe text with Gemini:", error);
+        throw new Error("Failed to generate recipe text.");
+    }
+};
+
+export const generateRecipeImage = async (recipeTitle: string): Promise<string> => {
+    try {
+        const imagePrompt = `A delicious, high-quality photograph of ${recipeTitle}, ready to be served.`;
 
         // Gemini API Guidelines: Use ai.models.generateImages for image generation.
         const imageResponse = await ai.models.generateImages({
@@ -82,12 +89,11 @@ export const generateRecipe = async (ingredients: string[], timeConstraint: stri
         
         // Gemini API Guidelines: Access the generated image bytes.
         const base64ImageBytes = imageResponse.generatedImages[0].image.imageBytes;
-        const imageUrl = `data:image/jpeg;base64,${base64ImageBytes}`;
-
-        return { ...recipeData, imageUrl };
+        return `data:image/jpeg;base64,${base64ImageBytes}`;
 
     } catch (error) {
-        console.error("Error generating recipe with Gemini:", error);
-        throw new Error("Failed to generate recipe.");
+        console.error("Error generating recipe image with Gemini:", error);
+        // Don't throw, just return an empty string or handle it gracefully
+        return "";
     }
-};
+}

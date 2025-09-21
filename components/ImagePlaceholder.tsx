@@ -2,10 +2,10 @@ import React from 'react';
 
 const ImagePlaceholder: React.FC = () => {
   return (
-    <div className="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+    <div className="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center animate-pulse">
       <svg
         className="w-16 h-16 text-gray-400 dark:text-gray-500"
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="http://www.w.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
